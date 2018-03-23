@@ -7,37 +7,27 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 
-/**
- * Created by gdelgado on 30/08/2017.
- */
 @SuppressWarnings("unused")
 public class CircularProgressView extends View {
 
     private static final String TAG = CircularProgressView.class.getSimpleName();
 
-    private static final float DEFAULT_VIEW_PADDING_DP = 10;
-    private static final float DEFAULT_SHADOW_PADDING_DP = 5;
-    private static final float DEFAULT_STROKE_THICKNESS_DP = 10;
-    private static final int DEFAULT_MAX_WIDTH_DP = 100;
-    private static final int DEFAULT_MAX = 100;
-    private static final int DEFAULT_STARTING_ANGLE = 270;
-    private static final int DEFAULT_ANIMATION_MILLIS = 1000;
-    private static final int DEFAULT_PROGRESS_COLOR = Color.BLACK;
-    private static final float DEFAULT_BACKGROUND_ALPHA = 0.3f;
-    private static final TimeInterpolator DEFAULT_INTERPOLATOR = new DecelerateInterpolator();
+    protected final CircularProgressViewConfig viewDefaultsConfiguration = new CircularProgressViewConfig();
 
-    private final float mDefaultViewPadding = dpToPx(DEFAULT_VIEW_PADDING_DP);
-    private final float mDefaultShadowPadding = dpToPx(DEFAULT_SHADOW_PADDING_DP);
-    private final float mDefaultStrokeThickness = dpToPx(DEFAULT_STROKE_THICKNESS_DP);
-    private final int mDefaultMaxWidth = dpToPx(DEFAULT_MAX_WIDTH_DP);
+    private final float mDefaultViewPadding = dpToPx(viewDefaultsConfiguration.viewPadding);
+    private final float mDefaultShadowPadding = dpToPx(viewDefaultsConfiguration.shadowPadding);
+    private final float mDefaultStrokeThickness = dpToPx(viewDefaultsConfiguration.strokeThickness);
+    private final int mDefaultMaxWidth = dpToPx(viewDefaultsConfiguration.maxWidthDP);
 
     private int mMax;
     private boolean mShadowEnabled;
@@ -91,10 +81,9 @@ public class CircularProgressView extends View {
 
     private void init(Context context, AttributeSet attrs) {
         mLastValidStrokeThickness = mDefaultStrokeThickness;
-        mInterpolator = DEFAULT_INTERPOLATOR;
+        mInterpolator = viewDefaultsConfiguration.interpolator;
         mProgressRectF = new RectF();
         mShadowRectF = new RectF();
-
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.STROKE);
         mProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -105,13 +94,13 @@ public class CircularProgressView extends View {
         if (attrs != null) {
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircularProgressView, 0, 0);
             try {
-                mMax = typedArray.getInt(R.styleable.CircularProgressView_max, DEFAULT_MAX);
+                mMax = typedArray.getInt(R.styleable.CircularProgressView_max, viewDefaultsConfiguration.max);
                 mShadowEnabled = typedArray.getBoolean(R.styleable.CircularProgressView_shadow, true);
                 mProgressThumbEnabled = typedArray.getBoolean(R.styleable.CircularProgressView_progressThumb, false);
-                mStartingAngle = typedArray.getInteger(R.styleable.CircularProgressView_startingAngle, DEFAULT_STARTING_ANGLE);
+                mStartingAngle = typedArray.getInteger(R.styleable.CircularProgressView_startingAngle, viewDefaultsConfiguration.startingAngle);
                 mProgress = typedArray.getFloat(R.styleable.CircularProgressView_progress, 0);
                 mProgressStrokeThickness = typedArray.getDimension(R.styleable.CircularProgressView_progressBarThickness, mDefaultStrokeThickness);
-                mProgressColor = typedArray.getInt(R.styleable.CircularProgressView_progressBarColor, DEFAULT_PROGRESS_COLOR);
+                mProgressColor = typedArray.getInt(R.styleable.CircularProgressView_progressBarColor, viewDefaultsConfiguration.progressColor);
                 mBackgroundColor = typedArray.getInt(R.styleable.CircularProgressView_backgroundColor, mProgressColor);
                 mBackgroundAlphaEnabled = typedArray.getBoolean(R.styleable.CircularProgressView_backgroundAlphaEnabled, true);
             } finally {
@@ -120,9 +109,9 @@ public class CircularProgressView extends View {
         } else {
             mProgressStrokeThickness = mDefaultStrokeThickness;
             mShadowEnabled = true;
-            mMax = DEFAULT_MAX;
-            mStartingAngle = DEFAULT_STARTING_ANGLE;
-            mProgressColor = DEFAULT_PROGRESS_COLOR;
+            mMax = viewDefaultsConfiguration.max;
+            mStartingAngle = viewDefaultsConfiguration.startingAngle;
+            mProgressColor = viewDefaultsConfiguration.progressColor;
             mBackgroundColor = mProgressColor;
             mBackgroundAlphaEnabled = true;
         }
@@ -306,7 +295,7 @@ public class CircularProgressView extends View {
     }
 
     public void setProgress(float progress, boolean animate) {
-        setProgress(progress, animate, DEFAULT_ANIMATION_MILLIS);
+        setProgress(progress, animate, viewDefaultsConfiguration.animationMillis);
     }
 
     public void setProgress(float progress, boolean animate, long duration) {
@@ -322,7 +311,7 @@ public class CircularProgressView extends View {
     }
 
     public void resetProgress(boolean animate) {
-        resetProgress(animate, DEFAULT_ANIMATION_MILLIS);
+        resetProgress(animate, viewDefaultsConfiguration.animationMillis);
     }
 
     public void resetProgress(boolean animate, long duration) {
@@ -330,7 +319,7 @@ public class CircularProgressView extends View {
     }
 
     public void setAnimationInterpolator(TimeInterpolator interpolator) {
-        mInterpolator = interpolator == null ? DEFAULT_INTERPOLATOR : interpolator;
+        mInterpolator = interpolator == null ? viewDefaultsConfiguration.interpolator : interpolator;
     }
 
     public void setProgressAnimationCallback(OnProgressChangeAnimationCallback callback) {
@@ -338,7 +327,7 @@ public class CircularProgressView extends View {
     }
 
     private void resetBackgroundPaint() {
-        mBackgroundPaint.setColor(mBackgroundAlphaEnabled ? adjustAlpha(mBackgroundColor, DEFAULT_BACKGROUND_ALPHA) : mBackgroundColor);
+        mBackgroundPaint.setColor(mBackgroundAlphaEnabled ? adjustAlpha(mBackgroundColor, viewDefaultsConfiguration.backgroundAlpha) : mBackgroundColor);
     }
 
     private void setProgress(float progress, boolean animate, long duration, boolean clockwise) {
