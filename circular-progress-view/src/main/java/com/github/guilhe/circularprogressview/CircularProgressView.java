@@ -22,7 +22,7 @@ public class CircularProgressView extends View {
 
     private static final String TAG = CircularProgressView.class.getSimpleName();
 
-    protected final CircularProgressViewConfig viewDefaultsConfiguration = new CircularProgressViewConfig();
+    private final CircularProgressViewConfig viewDefaultsConfiguration = this.generateConfigs();
 
     private final float mDefaultViewPadding = dpToPx(viewDefaultsConfiguration.viewPadding);
     private final float mDefaultShadowPadding = dpToPx(viewDefaultsConfiguration.shadowPadding);
@@ -51,6 +51,10 @@ public class CircularProgressView extends View {
     private TimeInterpolator mInterpolator;
     private Animator mProgressAnimator;
     private OnProgressChangeAnimationCallback mCallback;
+
+    protected CircularProgressViewConfig generateConfigs() {
+        return new CircularProgressViewConfig();
+    }
 
     public interface OnProgressChangeAnimationCallback {
         void onProgressChanged(float progress);

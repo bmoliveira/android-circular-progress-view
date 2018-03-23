@@ -6,7 +6,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.github.guilhe.circularprogressview.CircularProgressView
+        <com.github.guilhe.circularprogressview_sample.CustomCircularProgressView
                 android:id="@+id/sample_CircularProgressView"
                 android:layout_width="@dimen/progress_size"
                 android:layout_height="@dimen/progress_size"
@@ -15,7 +15,9 @@
                 app:progressThumb="true"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="20dp"
+          />
 
         <ScrollView
             android:layout_width="0dp"

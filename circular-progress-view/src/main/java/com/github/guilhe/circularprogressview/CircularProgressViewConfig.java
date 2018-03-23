@@ -5,52 +5,110 @@ import android.graphics.Color;
 import android.view.animation.DecelerateInterpolator;
 
 @SuppressWarnings("WeakerAccess, unused")
-public class CircularProgressViewConfig {
+public final class CircularProgressViewConfig {
+    private static final float defaultViewPadding = 10;
+    private static final float defaultShadowPadding = 5;
+    private static final float defaultStrokeThickness = 10;
+    private static final int defaultMaxWidthDP = 100;
+    private static final int defaultMax = 100;
+    private static final int defaultStartingAngle = 270;
+    private static final int defaultAnimationMillis = 1000;
+    private static final int defaultProgressColor = Color.BLACK;
+    private static final float defaultBackgroundAlpha = 0.3f;
+    private static final TimeInterpolator defaultInterpolator = new DecelerateInterpolator();
 
-    private final float DEFAULT_VIEW_PADDING = 10;
-    private final float DEFAULT_SHADOW_PADDING = 5;
-    private final float DEFAULT_STROKE_THICKNESS = 10;
-    private final int DEFAULT_MAX_WIDTH = 100;
-    private final int DEFAULT_MAX = 100;
-    private final int DEFAULT_STARTING_ANGLE = 270;
-    private final int DEFAULT_ANIMATION_MILLIS = 1000;
-    private final int DEFAULT_PROGRESS_COLOR = Color.BLACK;
-    private final float DEFAULT_BACKGROUND_ALPHA = 0.3f;
-    private final TimeInterpolator DEFAULT_INTERPOLATOR = new DecelerateInterpolator();
+    public static class Builder {
+        private float viewPadding = defaultViewPadding;
+        private float shadowPadding = defaultShadowPadding;
+        private float strokeThickness = defaultStrokeThickness;
+        private int maxWidthDP = defaultMaxWidthDP;
+        private int max = defaultMax;
+        private int startingAngle = defaultStartingAngle;
+        private int animationMillis = defaultAnimationMillis;
+        private int progressColor = defaultProgressColor;
+        private float backgroundAlpha = defaultBackgroundAlpha;
+        private TimeInterpolator interpolator = defaultInterpolator;
 
 
-    /**
-     * Default values constructor
-     */
-    public CircularProgressViewConfig() {
-        this.viewPadding = DEFAULT_VIEW_PADDING;
-        this.shadowPadding = DEFAULT_SHADOW_PADDING;
-        this.strokeThickness = DEFAULT_STROKE_THICKNESS;
-        this.maxWidthDP = DEFAULT_MAX_WIDTH;
-        this.max = DEFAULT_MAX;
-        this.startingAngle = DEFAULT_STARTING_ANGLE;
-        this.animationMillis = DEFAULT_ANIMATION_MILLIS;
-        this.progressColor = DEFAULT_PROGRESS_COLOR;
-        this.backgroundAlpha = DEFAULT_BACKGROUND_ALPHA;
-        this.interpolator = DEFAULT_INTERPOLATOR;
+        public Builder() {}
+
+        public Builder setViewPadding(float viewPadding) {
+            this.viewPadding = viewPadding;
+            return this;
+        }
+
+        public Builder setShadowPadding(float shadowPadding) {
+            this.shadowPadding = shadowPadding;
+            return this;
+        }
+
+        public Builder setStrokeThickness(float strokeThickness) {
+            this.strokeThickness = strokeThickness;
+            return this;
+        }
+
+        public Builder setMaxWidthDP(int maxWidthDP) {
+            this.maxWidthDP = maxWidthDP;
+            return this;
+        }
+
+        public Builder setMax(int max) {
+            this.max = max;
+            return this;
+        }
+
+        public Builder setStartingAngle(int startingAngle) {
+            this.startingAngle = startingAngle;
+            return this;
+        }
+
+        public Builder setAnimationMillis(int animationMillis) {
+            this.animationMillis = animationMillis;
+            return this;
+        }
+
+        public Builder setProgressColor(int progressColor) {
+            this.progressColor = progressColor;
+            return this;
+        }
+
+        public Builder setBackgroundAlpha(float backgroundAlpha) {
+            this.backgroundAlpha = backgroundAlpha;
+            return this;
+        }
+
+        public Builder setInterpolator(TimeInterpolator interpolator) {
+            this.interpolator = interpolator;
+            return this;
+        }
+
+        public CircularProgressViewConfig build() {
+            return new CircularProgressViewConfig(viewPadding, shadowPadding, strokeThickness,
+                maxWidthDP, max, startingAngle, animationMillis, progressColor, backgroundAlpha,
+                interpolator);
+        }
     }
 
     /**
-     * Custom values constructor. All null values will be assigned the default value.
-     *
-     * @param viewPadding will default to 10dp if null.
-     * @param shadowPadding will default to 5dp if null.
-     * @param strokeThickness will default to 10dp if null.
-     * @param maxWidthDP will default to 100dp if null.
-     * @param max will default to 100 if null.
-     * @param startingAngle will default to 270 degrees if null.
-     * @param animationMillis will default to 1000ms if null.
-     * @param progressColor will default to Color.BLACK if null.
-     * @param backgroundAlpha will default to 0.3f if null.
-     * @param interpolator will default to new DecelerateInterpolator() if null.
-     *
+     * Default values constructor.
      */
-    public CircularProgressViewConfig(
+    public CircularProgressViewConfig() {
+        this.viewPadding = defaultViewPadding;
+        this.shadowPadding = defaultShadowPadding;
+        this.strokeThickness = defaultStrokeThickness;
+        this.maxWidthDP = defaultMaxWidthDP;
+        this.max = defaultMax;
+        this.startingAngle = defaultStartingAngle;
+        this.animationMillis = defaultAnimationMillis;
+        this.progressColor = defaultProgressColor;
+        this.backgroundAlpha = defaultBackgroundAlpha;
+        this.interpolator = defaultInterpolator;
+    }
+
+    /**
+     * Custom values constructor.
+     */
+    private CircularProgressViewConfig(
         Float viewPadding,
         Float shadowPadding,
         Float strokeThickness,
@@ -62,17 +120,6 @@ public class CircularProgressViewConfig {
         Float backgroundAlpha,
         TimeInterpolator interpolator
     ) {
-        if (viewPadding == null) { viewPadding = DEFAULT_VIEW_PADDING; }
-        if (shadowPadding == null) { shadowPadding = DEFAULT_SHADOW_PADDING; }
-        if (strokeThickness == null) { strokeThickness = DEFAULT_STROKE_THICKNESS; }
-        if (maxWidthDP == null) { maxWidthDP = DEFAULT_MAX_WIDTH; }
-        if (max == null) { max = DEFAULT_MAX; }
-        if (startingAngle == null) { startingAngle = DEFAULT_STARTING_ANGLE; }
-        if (animationMillis == null) { animationMillis = DEFAULT_ANIMATION_MILLIS; }
-        if (progressColor == null) { progressColor = DEFAULT_PROGRESS_COLOR; }
-        if (backgroundAlpha == null) { backgroundAlpha = DEFAULT_BACKGROUND_ALPHA; }
-        if (interpolator == null) { interpolator = DEFAULT_INTERPOLATOR; }
-
         this.viewPadding = viewPadding;
         this.shadowPadding = shadowPadding;
         this.strokeThickness = strokeThickness;
